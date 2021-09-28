@@ -19,9 +19,14 @@ define dsp
 
 	while ($i < $cnt)
 		set $i = $i + 1
-		printf "%#018llx: %#018llx | ", $addr, *(void**)$addr
+		if (sizeof(void*) == 4)
+			printf "%#010llx: %#010llx | ", $addr, *(void**)$addr
+		end
+		if (sizeof(void*) == 8)
+			printf "%#018llx: %#018llx | ", $addr, *(void**)$addr
+		end
 		info symbol *(void**)$addr
-		set $addr = $addr + 8
+		set $addr = $addr + sizeof(void*)
 	end
 
 	set $dsp_addr = $addr
